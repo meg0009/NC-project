@@ -1,24 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>Main form</title>
+	<title>Home page</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<form name="form" th:action="@{/add-person}" th:object="${person}" method="post">
-	<div>
-		Фамилия: <input type="text" name="lastName" th:field="*{lastName}">
-	</div>
-	<div>
-		Имя: <input type="text" name="firstName" th:field="*{firstName}">
-	</div>
-	<div>
-		Отчество: <input type="text" name="patronymic" th:field="*{patronymic}">
-	</div>
-	<div>
-		<input type="submit" value="Submit">
-		<input type="reset" value="Reset">
-	</div>
-</form>
+<div><a th:href="@{/add-person}">Add person</a></div>
+<div><a th:href="@{/get-persons}">Get persons</a></div>
 </body>
 </html>
