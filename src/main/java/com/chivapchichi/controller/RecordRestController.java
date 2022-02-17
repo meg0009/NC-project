@@ -1,11 +1,9 @@
 package com.chivapchichi.controller;
 
-import com.chivapchichi.model.RecordInfo;
+import com.chivapchichi.model.Record;
 import com.chivapchichi.repository.RecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,7 +15,12 @@ public class RecordRestController {
     private RecordRepository repository;
 
     @GetMapping("/get-records")
-    public List<RecordInfo> getAll() {
+    public List<Record> getAll() {
         return repository.findAllWithInfo();
+    }
+
+    @PostMapping("/add-record")
+    public int addRecord(@RequestBody Record record) {
+        return repository.saveRecord(record.getMember(), record.getTournament());
     }
 }
