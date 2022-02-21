@@ -1,4 +1,4 @@
-package com.chivapchichi.controller;
+package com.chivapchichi.controller.rest;
 
 import com.chivapchichi.model.Record;
 import com.chivapchichi.repository.RecordRepository;
@@ -16,7 +16,7 @@ public class RecordRestController {
 
     @GetMapping("/get-records")
     public List<Record> getAll() {
-        return repository.findAllWithInfo();
+        return repository.findAll();
     }
 
     @PostMapping("/add-record")

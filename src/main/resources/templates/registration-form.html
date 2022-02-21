@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Registration on tournament</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header>
+	<nav>
+		<ul>
+			<li th:each="tournament: *{tournaments}">
+				<a th:href="'/registration/' + ${tournament.getId()}">
+					<div th:text="${tournament.getDate().getTime().toString()}"></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+<section>
+	<header>
+		<div th:text="'Дата: ' + ${dateFormatter.format(selectedTournament.getDate().getTime())}"></div>
+		<ul>
+			<li th:each="record: *{records}">
+				<div th:text="${record.getFio()}"></div>
+			</li>
+		</ul>
+	</header>
+	<section>
+		<form name="form" th:action="'/registration/' + ${selectedTournament.getId()} + '/member'" th:object="${member}" method="get">
+			<div>
+				<label>
+					Email:
+					<input type="text" name="userName" th:field="*{userName}">
+				</label>
+			</div>
+			<div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">email error</div>
+			<div>
+				<label>
+					ФИО:
+					<input type="text" name="fio" th:field="*{fio}">
+				</label>
+			</div>
+			<div>
+				<input type="submit" value="Submit">
+				<input type="reset" value="Reset">
+			</div>
+		</form>
+	</section>
+</section>
+
+</body>
+</html>

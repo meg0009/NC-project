@@ -3,6 +3,8 @@ package com.chivapchichi.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "members")
@@ -14,6 +16,7 @@ public class Members {
     private int id;
 
     @Column(name = "user_name", nullable = false)
+    @Email
     private String userName;
 
     @Column(nullable = false)

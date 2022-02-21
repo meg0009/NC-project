@@ -1,4 +1,4 @@
-package com.chivapchichi.controller;
+package com.chivapchichi.controller.rest;
 
 import com.chivapchichi.model.Members;
 import com.chivapchichi.repository.MembersRepository;

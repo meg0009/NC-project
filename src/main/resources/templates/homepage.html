@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header>
+	<nav>
+		<ul>
+			<li th:each="tournament: *{tournaments}">
+				<a th:href="'/registration/' + ${tournament.getId()}">
+					<div th:text="${tournament.getDate().getTime().toString()}"></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+</body>
+</html>

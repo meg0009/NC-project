@@ -17,5 +17,8 @@ public class Record {
     private String member;
 
     @Column(nullable = false)
+    private String fio;
+
+    @Column(nullable = false)
     private int tournament;
 }
