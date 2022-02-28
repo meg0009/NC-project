@@ -39,7 +39,9 @@ public class RegistrationService {
             membersRepository.save(member);
         }
 
-        recordRepository.saveRecord(userName, tournament);
+        if (!recordRepository.findByUserNameAndTournament(userName, tournament).isPresent()) {
+            recordRepository.saveRecord(userName, tournament);
+        }
         return recordRepository.findByUserNameAndTournament(userName, tournament)
                 .orElseThrow(() -> new Exception("Not found"));
     }

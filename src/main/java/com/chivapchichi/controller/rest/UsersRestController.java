@@ -21,7 +21,7 @@ public class UsersRestController {
     }
 
     @PostMapping("/create-user")
-    public String createNewUser(@RequestBody Users user, UsersService service) {
+    public boolean createNewUser(@RequestBody Users user, UsersService service) {
         return service.addNewUser(repository, user);
     }
 }

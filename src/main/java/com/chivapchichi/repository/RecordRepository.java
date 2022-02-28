@@ -34,4 +34,10 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 
     @Query(value = "select r.id as id, m.user_name as member, m.fio as fio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and m.user_name=:user and t.id=:tournament", nativeQuery = true)
     Optional<Record> findByUserNameAndTournament(@Param("user") String userName, @Param("tournament") Integer tournament);
+
+    @Override
+    @Modifying
+    @Transactional
+    @Query(value = "delete from record where id=?", nativeQuery = true)
+    void deleteById(Integer integer);
 }

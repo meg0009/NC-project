@@ -6,11 +6,12 @@
 </head>
 <body>
 <header>
+	<div th:text="${principal?.toString()}"></div>
 	<nav>
 		<ul>
-			<li th:each="tournament: *{tournaments}">
-				<a th:href="'/registration/' + ${tournament.getId()}">
-					<div th:text="${tournament.getDate().getTime().toString()}"></div>
+			<li th:each="t: *{tournament}">
+				<a th:href="'/tournament/registration/' + ${t.getId()}">
+					<div th:text="${t.getDate().getTime().toString()}"></div>
 				</a>
 			</li>
 		</ul>

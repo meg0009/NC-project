@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Registration on tournament</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<header>
+	<div th:text="${principal?.toString()}"></div>
+	<nav>
+		<ul>
+			<li th:each="t: *{tournament}">
+				<a th:href="'/tournament/registration/' + ${t.getId()}">
+					<div th:text="${t.getDate().getTime().toString()}"></div>
+				</a>
+			</li>
+		</ul>
+	</nav>
+</header>
+<section>
+	<header>
+		<div th:text="'Дата: ' + ${dateFormatter.format(selectedTournament.getDate().getTime())}"></div>
+		<ul>
+			<li th:each="r: *{record}">
+				<div th:text="${r.getFio()}"></div>
+			</li>
+		</ul>
+	</header>
+	<section>
+		<form th:if="${registration != null}" name="form" th:action="'/tournament/registration/' + ${selectedTournament.getId()}" method="post">
+				<input type="submit" th:value="${registration.toString()}">
+			</div>
+		</form>
+		<a th:if="${registration == null}" href="/login">Войти</a>
+		<a th:if="${registration == null}" href="/registration">Зарегистрироваться на сайте</a>
+	</section>
+</section>
+
+</body>
+</html>

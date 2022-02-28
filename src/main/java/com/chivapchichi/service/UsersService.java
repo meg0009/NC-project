@@ -11,8 +11,13 @@ public class UsersService {
 
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public String addNewUser(UsersRepository repository, Users user) {
+    public boolean addNewUser(UsersRepository repository, Users user) {
         //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (repository.findByLogin(user.getUserName()) != null) {
+            return false;
+        }
+
         Users newUser = new Users();
         newUser.setUserName(user.getUserName());
         newUser.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -22,7 +27,7 @@ public class UsersService {
             newUser.setRole(user.getRole());
         }
         repository.save(newUser);
-        return newUser.getUserName();
+        return true;
     }
 
     public String deleteUser(UsersRepository repository, Users user) {

@@ -16,7 +16,6 @@ public class Members {
     private int id;
 
     @Column(name = "user_name", nullable = false)
-    @Email
     private String userName;
 
     @Column(nullable = false)
