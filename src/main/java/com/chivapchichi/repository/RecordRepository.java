@@ -32,6 +32,12 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
     @Query(value = "select r.id as id, m.user_name as member, m.fio as fio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and r.tournament=?", nativeQuery = true)
     List<Record> findByTournament(Integer integer);
 
+    @Query(value = "select r.id as id, m.user_name as member, m.fio as fio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and r.tournament=?1 limit (select max from tournament where id=?1)", nativeQuery = true)
+    List<Record> findByTournamentMainTeam(Integer integer);
+
+    @Query(value = "select r.id as id, m.user_name as member, m.fio as fio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and r.tournament=?1 offset (select max from tournament where id=?1)", nativeQuery = true)
+    List<Record> findByTournamentReserve(Integer integer);
+
     @Query(value = "select r.id as id, m.user_name as member, m.fio as fio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and m.user_name=:user and t.id=:tournament", nativeQuery = true)
     Optional<Record> findByUserNameAndTournament(@Param("user") String userName, @Param("tournament") Integer tournament);
 

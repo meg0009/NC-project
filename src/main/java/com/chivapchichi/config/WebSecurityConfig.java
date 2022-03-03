@@ -1,43 +1,56 @@
 package com.chivapchichi.config;
 
-import com.chivapchichi.service.RestApiService;
+import com.chivapchichi.service.security.JwtConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+
+    private final JwtConfigurer jwtConfigurer;
+
+    /*@Autowired
+    DataSource dataSource;*/
+
     @Autowired
-    DataSource dataSource;
+    public WebSecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, JwtConfigurer jwtConfigurer) {
+        this.userDetailsService = userDetailsService;
+        this.jwtConfigurer = jwtConfigurer;
+    }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider());
         //super.configure(auth);
-        auth.jdbcAuthentication().dataSource(dataSource)
-                        /*.usersByUsernameQuery(
+       /* auth.jdbcAuthentication().dataSource(dataSource)
+                        *//*.usersByUsernameQuery(
                                 "select user_name as username, password from users where user_name=?"
                         )
                         .authoritiesByUsernameQuery(
                                 "select user_name as username, role from users where user_name=?"
-                        )*/
+                        )*//*
                 .usersByUsernameQuery(
                         "select user_name, password, 'true' from users where user_name=?"
                 ).authoritiesByUsernameQuery(
                         "select user_name, role from users where user_name=?"
                 ).and()
                 .inMemoryAuthentication()
-                .withUser(RestApiService.adminName).password(passwordEncoder().encode(RestApiService.adminPassword)).roles("ADMIN", "USER");
+                .withUser(RestApiService.adminName).password(passwordEncoder().encode(RestApiService.adminPassword)).roles("ADMIN", "USER");*/
         /*auth.inMemoryAuthentication()
                 *//*.withUser("admin").password(passwordEncoder().encode("admin")).roles("ADMIN", "USER")
                 .and()*//*
@@ -57,8 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET).permitAll()
                 .anyRequest().authenticated()*/
                 .antMatchers(HttpMethod.POST, "/tournaments/**").hasRole("USER")
+                .antMatchers("/rest/users/**").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
                 .antMatchers(HttpMethod.GET).permitAll()
+                .antMatchers("/rest/auth/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -66,14 +81,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.loginProcessingUrl("/perform-login")
                 .defaultSuccessUrl("/tournament/registration", true)
                 .and()
-                .httpBasic()
+                .apply(jwtConfigurer);
                 /*.and()
                 .logout()
                 .logoutUrl("/perform-logout")*/;
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    protected PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    protected DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        return daoAuthenticationProvider;
     }
 }

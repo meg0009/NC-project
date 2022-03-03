@@ -2,6 +2,7 @@ package com.chivapchichi.service;
 
 import com.chivapchichi.model.Users;
 import com.chivapchichi.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,12 +10,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsersService {
 
-    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    //private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UsersService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public boolean addNewUser(UsersRepository repository, Users user) {
         //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        if (repository.findByLogin(user.getUserName()) != null) {
+        if (repository.findByLogin(user.getUserName()).isPresent()) {
             return false;
         }
 

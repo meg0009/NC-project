@@ -21,8 +21,25 @@
 	<header>
 		<div th:text="'Дата: ' + ${dateFormatter.format(selectedTournament.getDate().getTime())}"></div>
 		<ul>
-			<li th:each="r: *{record}">
-				<div th:text="${r.getFio()}"></div>
+			<li>
+				<h6>
+					Основной состав:
+				</h6>
+				<ul>
+					<li th:each="r: *{recordMain}">
+						<div th:text="${r.getFio()}"></div>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h6>
+					Запасной состав:
+				</h6>
+				<ul>
+					<li th:each="r: *{recordReserve}">
+						<div th:text="${r.getFio()}"></div>
+					</li>
+				</ul>
 			</li>
 		</ul>
 	</header>

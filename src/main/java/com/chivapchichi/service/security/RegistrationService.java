@@ -1,4 +1,4 @@
-package com.chivapchichi.service;
+package com.chivapchichi.service.security;
 
 import com.chivapchichi.model.Members;
 import com.chivapchichi.model.Record;
@@ -6,23 +6,28 @@ import com.chivapchichi.model.Users;
 import com.chivapchichi.repository.MembersRepository;
 import com.chivapchichi.repository.RecordRepository;
 import com.chivapchichi.repository.UsersRepository;
+import com.chivapchichi.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RegistrationService {
 
-    @Autowired
-    MembersRepository membersRepository;
+    private final MembersRepository membersRepository;
+
+    private final UsersRepository usersRepository;
+
+    private final RecordRepository recordRepository;
+
+    private final UsersService usersService;
 
     @Autowired
-    UsersRepository usersRepository;
-
-    @Autowired
-    RecordRepository recordRepository;
-
-    @Autowired
-    UsersService usersService;
+    public RegistrationService(MembersRepository membersRepository, UsersRepository usersRepository, RecordRepository recordRepository, UsersService usersService) {
+        this.membersRepository = membersRepository;
+        this.usersRepository = usersRepository;
+        this.recordRepository = recordRepository;
+        this.usersService = usersService;
+    }
 
     public Record register(Integer tournament, String userName, String fio) throws Exception {
         if (!usersRepository.findById(userName).isPresent()) {

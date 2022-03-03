@@ -5,7 +5,7 @@ import com.chivapchichi.model.Tournament;
 import com.chivapchichi.repository.MembersRepository;
 import com.chivapchichi.repository.RecordRepository;
 import com.chivapchichi.repository.TournamentRepository;
-import com.chivapchichi.service.RegistrationService;
+import com.chivapchichi.service.security.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -62,7 +62,8 @@ public class TournamentRegistrationController {
         Tournament tournament = tournamentRepository.getById(id);
         model.addAttribute("tournament", tournamentRepository.findAll());
         model.addAttribute("selectedTournament", tournament);
-        model.addAttribute("record", recordRepository.findByTournament(id));
+        model.addAttribute("recordMain", recordRepository.findByTournamentMainTeam(id));
+        model.addAttribute("recordReserve", recordRepository.findByTournamentReserve(id));
         model.addAttribute("dateFormatter", new SimpleDateFormat("dd.MM.yy HH:mm"));
         return "tournament-registration";
     }
