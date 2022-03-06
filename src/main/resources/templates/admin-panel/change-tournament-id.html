@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+	Отредактировать турнир
+</div>
+<form th:action="@{/admin-panel/change-tournament}" th:object="${tournament}" method="post">
+	<div>
+		<label>
+			Дата:
+			<input type="datetime-local" th:field="*{date}">
+		</label>
+	</div>
+	<div>
+		<label>
+			Рейтинг:
+			<input type="text" th:field="*{ratingRange}">
+		</label>
+	</div>
+	<div>
+		<label>
+			Адрес:
+			<input type="text" th:field="*{address}">
+		</label>
+	</div>
+	<div>
+		<label>
+			Номер телефона:
+			<input type="text" th:field="*{phone}">
+		</label>
+	</div>
+	<div>
+		<label>
+			Имя организатора:
+			<input type="text" th:field="*{organizerName}">
+		</label>
+	</div>
+	<div>
+		<label>
+			1:
+			<input type="text" th:field="*{cost}">
+		</label>
+	</div>
+	<div>
+		<label>
+			Количество участников:
+			<input type="text" th:field="*{max}">
+		</label>
+	</div>
+	<div>
+		<input type="submit" value="Submit">
+		<input type="reset" value="Reset">
+	</div>
+</form>
+</body>
+</html>

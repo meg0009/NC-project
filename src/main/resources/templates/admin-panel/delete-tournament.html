@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+	Удалить турнир
+</div>
+<div>
+	<form th:action="@{/admin-panel/delete-tournament}" method="post">
+		<div>
+			<ul>
+				<li th:each="tournament : *{tournaments}">
+					<div>
+						<span th:text="${tournament.getDate().getTime().toString()}"></span>
+						<input type="radio" name="id" th:value="${tournament.getId()}">
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div>
+			<input type="submit" value="Submit">
+			<input type="reset" value="Reset">
+		</div>
+	</form>
+</div>
+</body>
+</html>

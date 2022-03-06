@@ -6,21 +6,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("rest/records")
+@RequestMapping("rest/record")
 public class RecordRestController {
 
-    @Autowired
-    private RecordRepository repository;
+    private final RecordRepository recordRepository;
 
-    @GetMapping("/get-records")
-    public List<Record> getAll() {
-        return repository.findAll();
+    @Autowired
+    public RecordRestController(RecordRepository recordRepository) {
+        this.recordRepository = recordRepository;
     }
 
-    @PostMapping("/add-record")
-    public int addRecord(@RequestBody Record record) {
-        return repository.saveRecord(record.getMember(), record.getTournament());
+    @GetMapping("/get-records")
+    public List<Record> getAllRecords() {
+        return recordRepository.findAll();
+    }
+
+    @GetMapping("/get-records/by-tournament/{id}")
+    public List<Record> getByTournament(@PathVariable("id") Integer id) {
+        return recordRepository.findByTournament(id);
+    }
+
+    @GetMapping("/get-records/by-tournament/{id}/main-team")
+    public List<Record> getTournamentMainTeam(@PathVariable("id") Integer id) {
+        return recordRepository.findByTournamentMainTeam(id);
+    }
+
+    @GetMapping("/get-records/by-tournament/{id}/reserve")
+    public List<Record> getTournamentReserve(@PathVariable("id") Integer id) {
+        return recordRepository.findByTournamentReserve(id);
+    }
+
+    @PostMapping("/get-records/by-tournament/{id}")
+    public Optional<Record> getByUserNameAndTournament(@PathVariable("id") Integer id, @RequestBody Map<String, String> request) {
+        String userName = request.get("username");
+        return recordRepository.findByUserNameAndTournament(userName, id);
     }
 }

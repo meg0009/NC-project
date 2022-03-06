@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+	Список пользователей
+</div>
+<div>
+	<ul>
+		<li th:each="user: *{users}">
+			<a th:href="@{/admin-panel/change-user/{username}(username = ${user.getUserName()})}" th:text="${user.getUserName()}"></a>
+		</li>
+	</ul>
+</div>
+</body>
+</html>

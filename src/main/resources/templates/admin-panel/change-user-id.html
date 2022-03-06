@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+	Пользователь:
+</div>
+<div>
+	<div>
+		User name:
+		<span th:text="${user.getUserName()}"></span>
+	</div>
+	<div>
+		Фио:
+		<span th:text="${member.getFio()}"></span>
+	</div>
+
+	<div>
+		<form th:action="@{/admin-panel/change-user}" th:object="${user}" method="post">
+			<div style="display: none">
+				<input type="text" th:field="*{userName}">
+			</div>
+			<div>
+				Роль:
+				<input type="text" th:field="*{role}">
+			</div>
+			<div th:object="${member}">
+				<div style="display: none">
+					<input type="text" th:field="*{id}" readonly>
+				</div>
+				<div>
+					ФИО:
+					<input type="text" th:field="*{fio}">
+				</div>
+			</div>
+			<div>
+				<input type="submit" value="Сохранить изменения">
+			</div>
+		</form>
+	</div>
+
+	<div>
+		<form th:action="@{/admin-panel/delete-user}" th:object="${user}" method="post">
+			<div style="display: none">
+				<input type="text" th:field="*{userName}">
+			</div>
+			<input type="submit" value="Удалить пользователя">
+		</form>
+	</div>
+</div>
+</body>
+</html>

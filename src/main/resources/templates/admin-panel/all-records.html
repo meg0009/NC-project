@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+	Все записи:
+</div>
+<div>
+	<table>
+		<tr>
+			<th>
+				id
+			</th>
+			<th>
+				member
+			</th>
+			<th>
+				fio
+			</th>
+			<th>
+				tournament
+			</th>
+			<th>
+				ссылка
+			</th>
+		</tr>
+		<tr th:each="record : ${records}">
+			<td th:text="${record.getId()}"></td>
+			<td th:text="${record.getMember()}"></td>
+			<td th:text="${record.getFio()}"></td>
+			<td th:text="${record.getTournament()}"></td>
+			<td>
+				<a th:href="@{/admin-panel/get-record/{id}(id=${record.getId()})}">
+					для удаления
+				</a>
+			</td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

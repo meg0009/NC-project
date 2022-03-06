@@ -71,6 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()*/
                 .antMatchers(HttpMethod.POST, "/tournaments/**").hasRole("USER")
                 .antMatchers("/rest/users/**").hasRole("ADMIN")
+                .antMatchers("/admin-panel/**").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
                 .antMatchers(HttpMethod.GET).permitAll()
                 .antMatchers("/rest/auth/login").permitAll()

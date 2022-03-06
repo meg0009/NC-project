@@ -22,7 +22,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
     int saveRecord(@Param("member") String memberNickname, @Param("tournament") int tournament);
 
     @Override
-    @Query(value = "select r.id as id, m.user_name as member, m.fio as memberFio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and r.id=?", nativeQuery = true)
+    @Query(value = "select r.id as id, m.user_name as member, m.fio as fio, t.id as tournament from record as r, members as m, tournament as t where r.member = m.id and r.tournament = t.id and r.id=?", nativeQuery = true)
     Optional<Record> findById(Integer integer);
 
     @Override

@@ -18,14 +18,18 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
+
+    private final MembersRepository membersRepository;
+
+    private final UsersService usersService;
 
     @Autowired
-    private MembersRepository membersRepository;
-
-    @Autowired
-    private UsersService usersService;
+    public RegistrationController(UsersRepository usersRepository, MembersRepository membersRepository, UsersService usersService) {
+        this.usersRepository = usersRepository;
+        this.membersRepository = membersRepository;
+        this.usersService = usersService;
+    }
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -40,15 +44,10 @@ public class RegistrationController {
         if (result.hasErrors()) {
             return "registration";
         }
-        if (!usersService.addNewUser(usersRepository, users)) {
+        if (!usersService.addNewUserWithMember(users, members)) {
             model.addAttribute("usernameError", "Пользователь с таким именем существует");
             return "registration";
         }
-
-        Members member = new Members();
-        member.setUserName(users.getUserName());
-        member.setFio(members.getFio());
-        membersRepository.save(member);
 
         return "redirect:/tournament/registration";
     }

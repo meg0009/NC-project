@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Home page</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div>
+	Удалить турнир
+</div>
+<div>
+	<div>
+		<ul>
+			<li th:each="tournament : *{tournaments}">
+				<a th:href="@{/admin-panel/change-tournament/{id}(id = ${tournament.id})}">
+					<div th:text="${tournament.getDate().getTime().toString()}">
+					</div>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

@@ -1,11 +1,10 @@
 package com.chivapchichi.controller;
 
-import com.chivapchichi.model.Record;
 import com.chivapchichi.model.Tournament;
 import com.chivapchichi.repository.MembersRepository;
 import com.chivapchichi.repository.RecordRepository;
 import com.chivapchichi.repository.TournamentRepository;
-import com.chivapchichi.service.security.RegistrationService;
+import com.chivapchichi.service.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,23 +17,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("tournament")
 public class TournamentRegistrationController {
 
-    @Autowired
-    TournamentRepository tournamentRepository;
+    private final RecordRepository recordRepository;
+
+    private final TournamentService tournamentService;
 
     @Autowired
-    RecordRepository recordRepository;
-
-    @Autowired
-    MembersRepository membersRepository;
-
-    @Autowired
-    RegistrationService registrationService;
+    public TournamentRegistrationController(RecordRepository recordRepository, TournamentService tournamentService) {
+        this.recordRepository = recordRepository;
+        this.tournamentService = tournamentService;
+    }
 
     @GetMapping("/registration")
     public String homepage(Model model) {
@@ -43,7 +39,7 @@ public class TournamentRegistrationController {
             String currentPrincipal = authentication.getName();
             model.addAttribute("principal", currentPrincipal);
         }
-        model.addAttribute("tournament", tournamentRepository.findAll());
+        model.addAttribute("tournament", tournamentService.getAllTournaments());
         return "homepage";
     }
 
@@ -59,8 +55,8 @@ public class TournamentRegistrationController {
                 model.addAttribute("registration", "Записаться");
             }
         }
-        Tournament tournament = tournamentRepository.getById(id);
-        model.addAttribute("tournament", tournamentRepository.findAll());
+        Tournament tournament = tournamentService.getTournamentById(id).get();
+        model.addAttribute("tournament", tournamentService.getAllTournaments());
         model.addAttribute("selectedTournament", tournament);
         model.addAttribute("recordMain", recordRepository.findByTournamentMainTeam(id));
         model.addAttribute("recordReserve", recordRepository.findByTournamentReserve(id));
@@ -73,24 +69,7 @@ public class TournamentRegistrationController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipal = authentication.getName();
 
-        Optional<Record> record = recordRepository.findByUserNameAndTournament(currentPrincipal, id);
-        if (record.isPresent()) {
-            try {
-                Record r = record.orElseThrow(() -> new Exception("Error"));
-                recordRepository.deleteById(r.getId());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "success-registration";
-        }
-
-        String fio = membersRepository.findByUserName(currentPrincipal).getFio();
-        try {
-            registrationService.register(id, currentPrincipal, fio);
-            //System.out.println("hello");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tournamentService.makeRegistrationOrUnregister(currentPrincipal, id);
         return "success-registration";
     }
 }

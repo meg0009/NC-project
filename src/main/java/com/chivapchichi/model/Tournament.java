@@ -1,6 +1,7 @@
 package com.chivapchichi.model;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -15,6 +16,7 @@ public class Tournament {
     private int id;
 
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Calendar date;
 
     @Column(name = "rating_range")
@@ -34,4 +36,17 @@ public class Tournament {
 
     @Column(nullable = false)
     private int max;
+
+    public Tournament() {
+    }
+
+    public Tournament(Calendar date, int ratingRange, String address, String phone, String organizerName, double cost, int max) {
+        this.date = date;
+        this.ratingRange = ratingRange;
+        this.address = address;
+        this.phone = phone;
+        this.organizerName = organizerName;
+        this.cost = cost;
+        this.max = max;
+    }
 }
