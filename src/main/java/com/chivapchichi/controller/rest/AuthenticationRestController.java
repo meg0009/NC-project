@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("rest/auth")
+@RequestMapping("login-api/auth")
 public class AuthenticationRestController {
 
     private final AuthenticationManager authenticationManager;

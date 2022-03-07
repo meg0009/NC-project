@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("rest/record")
+@RequestMapping("api/record")
 public class RecordRestController {
 
     private final RecordRepository recordRepository;

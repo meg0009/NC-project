@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("rest/tournament")
+@RequestMapping("api/tournament")
 public class TournamentRegistrationRestController {
 
     private final TournamentService tournamentService;
@@ -36,7 +36,7 @@ public class TournamentRegistrationRestController {
     }
 
     @PostMapping("/register/{id}")
-    public Map<String, String> registerUnregister(@PathVariable("id") Integer id) {
+    public Map<String, String> register(@PathVariable("id") Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipal = authentication.getName();
 
@@ -52,7 +52,7 @@ public class TournamentRegistrationRestController {
     }
 
     @PostMapping("/unregister/{id}")
-    public Map<String, String> unregisterUnregister(@PathVariable("id") Integer id) {
+    public Map<String, String> unregister(@PathVariable("id") Integer id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipal = authentication.getName();
 
