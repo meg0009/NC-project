@@ -6,24 +6,23 @@
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-	<title>Login form</title>
+	<title>Registration</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body class="teal lighten-2">
 <div class="row">
-	<form class="col s4 teal lighten-3" th:action="@{/login}" method="post">
-		<div>
-			<label class="black-text">User name: <input type="text" name="username"></label>
+	<div th:fragment="tournaments-with-principal(principal, tournament, selectedTournament)" class="col s2">
+		<div th:if="${principal!=null}" th:text="${principal}"></div>
+		<div class="red lighten-2">
+			<div class="collection">
+				<div th:each="t: *{tournament}">
+					<a th:class="'collection-item waves-effect waves-light btn red lighten-2 z-depth-0 white-text' + ${t==selectedTournament?' lighten-1':''}" th:href="@{/tournament/registration/{id}(id=${t.id})}">
+						<div th:text="${t.getDate().getTime().toString()}"></div>
+					</a>
+				</div>
+			</div>
 		</div>
-		<div>
-			<label class="black-text">Password: <input type="password" name="password"></label>
-		</div>
-		<div>
-			<button class="btn teal darken-3 waves-effect waves-light white-text" type="submit">
-				Submit
-			</button>
-		</div>
-	</form>
+	</div>
 </div>
 
 <!-- Compiled and minified JavaScript -->

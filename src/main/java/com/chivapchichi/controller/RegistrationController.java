@@ -40,7 +40,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute @Valid Users users, @ModelAttribute Members members, BindingResult result, Model model) {
+    public String addUser(@ModelAttribute @Valid Users users, BindingResult result, @ModelAttribute Members members, Model model) {
         if (result.hasErrors()) {
             return "registration";
         }

@@ -3,17 +3,28 @@
 <head>
 	<title>Home page</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 </head>
-<body>
-<div>
+<body class="teal lighten-2">
+<!--<div>
 	Список пользователей
+</div>-->
+<div class="row">
+	<div th:replace="admin-panel/admintemplate :: navbar"></div>
+	<div class="col s8 teal lighten-3">
+		<ul>
+			<li th:each="user: *{users}">
+				<a class="btn teal darken-3 waves-effect waves-light white-text" th:href="@{/admin-panel/change-user/{username}(username = ${user.getUserName()})}" th:text="${user.getUserName()}"></a>
+			</li>
+		</ul>
+	</div>
 </div>
-<div>
-	<ul>
-		<li th:each="user: *{users}">
-			<a th:href="@{/admin-panel/change-user/{username}(username = ${user.getUserName()})}" th:text="${user.getUserName()}"></a>
-		</li>
-	</ul>
-</div>
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

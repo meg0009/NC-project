@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Compiled and minified CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
 	<title>Registration on tournament</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>
-<header>
-	<div th:text="${principal?.toString()}"></div>
-	<nav>
-		<ul>
-			<li th:each="t: *{tournament}">
-				<a th:href="'/tournament/registration/' + ${t.getId()}">
-					<div th:text="${t.getDate().getTime().toString()}"></div>
-				</a>
-			</li>
-		</ul>
-	</nav>
-</header>
-<section>
-	<header>
-		<div th:text="'Дата: ' + ${dateFormatter.format(selectedTournament.getDate().getTime())}"></div>
-		<ul>
-			<li>
-				<h6>
-					Основной состав:
-				</h6>
-				<ul>
-					<li th:each="r: *{recordMain}">
-						<div th:text="${r.getFio()}"></div>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<h6>
-					Запасной состав:
-				</h6>
-				<ul>
-					<li th:each="r: *{recordReserve}">
-						<div th:text="${r.getFio()}"></div>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</header>
-	<section>
-		<form th:if="${registration != null}" name="form" th:action="'/tournament/registration/' + ${selectedTournament.getId()}" method="post">
-				<input type="submit" th:value="${registration.toString()}">
-			</div>
-		</form>
-		<a th:if="${registration == null}" href="/login">Войти</a>
-		<a th:if="${registration == null}" href="/registration">Зарегистрироваться на сайте</a>
-	</section>
-</section>
+<body class="teal lighten-2">
+<div class="row">
+	<div th:replace="maintemplate :: tournaments-with-principal(${principal}, ${tournament}, ${selectedTournament})"></div>
+	<div class="col s10">
+		<section>
+			<header>
+				<div th:text="'Дата: ' + ${dateFormatter.format(selectedTournament.getDate().getTime())}"></div>
+				<div class="row">
+					<div class="col s3">
+						<ul class="collection with-header">
+							<li class="collection-header teal lighten-3">
+								<h6>
+									Основной состав:
+								</h6>
+								<ul>
+									<li class="collection-item teal lighten-3" th:each="r: *{recordMain}">
+										<div th:text="${r.getFio()}"></div>
+									</li>
+								</ul>
+							</li>
+							<li class="collection-header teal lighten-3">
+								<h6>
+									Запасной состав:
+								</h6>
+								<ul>
+									<li class="collection-item teal lighten-3" th:each="r: *{recordReserve}">
+										<div th:text="${r.getFio()}"></div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</header>
+			<section>
+				<form th:if="${registration != null}" name="form" th:action="'/tournament/registration/' + ${selectedTournament.getId()}" method="post">
+						<button class="btn teal darken-3 waves-effect waves-light white-text" type="submit" th:text="${registration.toString()}">
+						</button>
+				</form>
+				<a class="btn teal darken-3 waves-effect waves-light" th:if="${registration == null}" href="/login">Войти</a>
+				<a class="btn teal darken-3 waves-effect waves-light" th:if="${registration == null}" href="/registration">Зарегистрироваться на сайте</a>
+			</section>
+		</section>
+	</div>
+</div>
 
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
