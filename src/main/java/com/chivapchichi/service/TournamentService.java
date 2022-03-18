@@ -89,4 +89,8 @@ public class TournamentService {
         }
         return false;
     }
+
+    public List<Tournament> getByUserName(String userName) {
+        return tournamentRepository.findByUserName(userName);
+    }
 }

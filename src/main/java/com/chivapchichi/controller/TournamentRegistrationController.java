@@ -49,6 +49,9 @@ public class TournamentRegistrationController {
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentPrincipal = authentication.getName();
             model.addAttribute("principal", currentPrincipal);
+
+            model.addAttribute("tournamentsRecords", tournamentService.getByUserName(currentPrincipal));
+
             if (recordRepository.findByUserNameAndTournament(currentPrincipal, id).isPresent()) {
                 model.addAttribute("registration", "Удалить запись");
             } else {

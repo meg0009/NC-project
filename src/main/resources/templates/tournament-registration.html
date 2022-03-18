@@ -12,35 +12,33 @@
 <body class="teal lighten-2">
 <div class="row">
 	<div th:replace="maintemplate :: tournaments-with-principal(${principal}, ${tournament}, ${selectedTournament})"></div>
-	<div class="col s10">
+	<div class="col s3">
 		<section>
 			<header>
 				<div th:text="'Дата: ' + ${dateFormatter.format(selectedTournament.getDate().getTime())}"></div>
-				<div class="row">
-					<div class="col s3">
-						<ul class="collection with-header">
-							<li class="collection-header teal lighten-3">
-								<h6>
-									Основной состав:
-								</h6>
-								<ul>
-									<li class="collection-item teal lighten-3" th:each="r: *{recordMain}">
-										<div th:text="${r.getFio()}"></div>
-									</li>
-								</ul>
-							</li>
-							<li class="collection-header teal lighten-3">
-								<h6>
-									Запасной состав:
-								</h6>
-								<ul>
-									<li class="collection-item teal lighten-3" th:each="r: *{recordReserve}">
-										<div th:text="${r.getFio()}"></div>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</div>
+				<div>
+					<ul class="collection with-header">
+						<li class="collection-header teal lighten-3">
+							<h6>
+								Основной состав:
+							</h6>
+							<ul>
+								<li class="collection-item teal lighten-3" th:each="r: *{recordMain}">
+									<div th:text="${r.getFio()}"></div>
+								</li>
+							</ul>
+						</li>
+						<li class="collection-header teal lighten-3">
+							<h6>
+								Запасной состав:
+							</h6>
+							<ul>
+								<li class="collection-item teal lighten-3" th:each="r: *{recordReserve}">
+									<div th:text="${r.getFio()}"></div>
+								</li>
+							</ul>
+						</li>
+					</ul>
 				</div>
 			</header>
 			<section>
@@ -48,10 +46,21 @@
 						<button class="btn teal darken-3 waves-effect waves-light white-text" type="submit" th:text="${registration.toString()}">
 						</button>
 				</form>
-				<a class="btn teal darken-3 waves-effect waves-light" th:if="${registration == null}" href="/login">Войти</a>
-				<a class="btn teal darken-3 waves-effect waves-light" th:if="${registration == null}" href="/registration">Зарегистрироваться на сайте</a>
 			</section>
 		</section>
+	</div>
+	<div class="col s3 offset-s4">
+		<div>
+			<a class="btn teal darken-3 waves-effect waves-light" th:if="${registration == null}" href="/login">Войти</a>
+			<a class="btn teal darken-3 waves-effect waves-light" th:if="${registration == null}" href="/registration">Зарегистрироваться на сайте</a>
+		</div>
+		<div th:if="${tournamentsRecords != null}">
+			<div th:each="t: *{tournamentsRecords}">
+				<a th:class="'collection-item waves-effect waves-light btn red lighten-2 z-depth-0 white-text' + ${t==selectedTournament?' lighten-1':''}" th:href="@{/tournament/registration/{id}(id=${t.id})}">
+					<div th:text="${t.getDate().getTime().toString()}"></div>
+				</a>
+			</div>
+		</div>
 	</div>
 </div>
 
