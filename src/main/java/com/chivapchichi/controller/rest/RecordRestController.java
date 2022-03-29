@@ -45,4 +45,9 @@ public class RecordRestController {
         String userName = request.get("username");
         return recordRepository.findByUserNameAndTournament(userName, id);
     }
+
+    @GetMapping("/get-record/{id}")
+    public Optional<Record> getRecordById(@PathVariable("id") Integer id) {
+        return recordRepository.findById(id);
+    }
 }

@@ -1,0 +1,15 @@
+.dropdown-content {
+    top: 100% !important;
+}
+
+.spacing-right {
+    margin-right: 10px;
+}
+
+a.collection-item:hover {
+    background-color: #26a69a !important;
+}
+
+.collection {
+    border: 0;
+}

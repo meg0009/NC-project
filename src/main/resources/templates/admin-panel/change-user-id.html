@@ -8,13 +8,14 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body class="teal lighten-2">
 <!--<div>
 	Пользователь:
 </div>-->
+<div th:replace="admin-panel/admintemplate :: navbar"></div>
 <div class="row">
-	<div th:replace="admin-panel/admintemplate :: navbar"></div>
 	<div class="col s8 teal lighten-3">
 		<div class="black-text">
 			User name:
@@ -28,11 +29,16 @@
 		<div>
 			<form th:action="@{/admin-panel/change-user}" th:object="${user}" method="post">
 				<div style="display: none">
-					<input type="text" th:field="*{userName}">
+					<input type="text" th:field="*{userName}" readonly>
 				</div>
 				<div>
 					Роль:
-					<input type="text" th:field="*{role}">
+					<select th:field="*{role}">
+						<option value="ROLE_USER">user</option>
+						<option value="ROLE_ADMIN">admin</option>
+					</select>
+
+<!--					<input type="text" th:field="*{role}">-->
 				</div>
 				<div th:object="${member}">
 					<div style="display: none">
@@ -63,6 +69,8 @@
 </div>
 
 <!-- Compiled and minified JavaScript -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="./select.js" th:src="@{/select.js}"></script>
 </body>
 </html>

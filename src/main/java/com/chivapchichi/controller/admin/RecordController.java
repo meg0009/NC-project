@@ -2,11 +2,13 @@ package com.chivapchichi.controller.admin;
 
 import com.chivapchichi.model.Record;
 import com.chivapchichi.repository.RecordRepository;
+import com.chivapchichi.service.api.admin.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Controller
@@ -15,36 +17,39 @@ public class RecordController {
 
     private final RecordRepository recordRepository;
 
+    private final RecordService recordService;
+
     @Autowired
-    public RecordController(RecordRepository recordRepository) {
+    public RecordController(RecordRepository recordRepository, RecordService recordService) {
         this.recordRepository = recordRepository;
+        this.recordService = recordService;
     }
 
     @GetMapping("/get-all-records")
     public String getAllRecords(Model model) {
-        model.addAttribute("records", recordRepository.findAll());
+        model.addAttribute("records", recordService.getAll());
         return "admin-panel/all-records";
     }
 
     @GetMapping("/get-records-by-tournament/{id}")
     public String getRecordByIdTournament(@PathVariable("id") Integer idTournament, Model model) {
-        model.addAttribute("records", recordRepository.findByTournament(idTournament));
+        model.addAttribute("records", recordService.getByTournament(idTournament));
         return "admin-panel/all-records";
     }
 
     @GetMapping("/get-record/{id}")
     public String getRecordById(@PathVariable("id") Integer id, Model model) {
-        Optional<Record> record = recordRepository.findById(id);
-        model.addAttribute("isPresent", record.isPresent());
-        if (record.isPresent()) {
-            model.addAttribute("record", record.get());
+        Record record = recordService.getRecordById(id);
+        model.addAttribute("isPresent", record != null);
+        if (record != null) {
+            model.addAttribute("record", record);
         }
         return "admin-panel/record";
     }
 
     @PostMapping("/delete-record")
-    public String deleteRecord(@ModelAttribute Record record) {
-        recordRepository.deleteById(record.getId());
-        return "success-registration";
+    public String deleteRecord(@ModelAttribute Record record, HttpServletRequest request) {
+        recordService.deleteById(record.getId(), request);
+        return "redirect:/admin-panel/get-all-records/";
     }
 }

@@ -34,15 +34,13 @@ public class UsersMembersRestController {
     }
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<Users> getUserByUsername(@PathVariable("username") String username) throws Exception {
-        Users user = usersService.getUserByUserName(username).orElseThrow(() -> new Exception("someerror"));
-        return ResponseEntity.ok(user);
+    public Optional<Users> getUserByUsername(@PathVariable("username") String username) throws Exception {
+        return usersService.getUserByUserName(username);
     }
 
     @GetMapping("/member/{username}")
-    public ResponseEntity<Members> getMemberByUserName(@PathVariable("username") String username) throws Exception {
-        Members member = usersService.getMemberByUserName(username).orElseThrow(() -> new Exception("someerror"));
-        return ResponseEntity.ok(member);
+    public Optional<Members> getMemberByUserName(@PathVariable("username") String username) throws Exception {
+        return usersService.getMemberByUserName(username);
     }
 
     @DeleteMapping("/delete-user/{username}")

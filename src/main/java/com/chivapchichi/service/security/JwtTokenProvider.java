@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
@@ -58,6 +59,8 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return !claimsJws.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            return false;
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtAuthenticationException("JWT token is expired or invalid", HttpStatus.UNAUTHORIZED);
         }
@@ -82,5 +85,11 @@ public class JwtTokenProvider {
             }
         }
         return request.getHeader(authorizationHeader);
+    }
+
+    public void deleteCookie(HttpServletResponse response) {
+        Cookie delete = new Cookie("Authentication", null);
+        delete.setMaxAge(0);
+        response.addCookie(delete);
     }
 }

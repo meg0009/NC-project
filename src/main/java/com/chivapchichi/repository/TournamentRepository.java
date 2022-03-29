@@ -8,6 +8,9 @@ import java.util.List;
 
 public interface TournamentRepository extends JpaRepository<Tournament, Integer> {
 
-    @Query(value = "select t.* from tournament as t, record as r, members as m where t.id=r.tournament and r.member=m.id and m.user_name=?", nativeQuery = true)
+    @Query(value = "select t.* from tournament as t, record as r, members as m where t.id=r.tournament and r.member=m.id and m.user_name=? order by id", nativeQuery = true)
     List<Tournament> findByUserName(String username);
+
+    @Query(value = "select distinct division from tournament order by division", nativeQuery = true)
+    List<String> getDivisions();
 }

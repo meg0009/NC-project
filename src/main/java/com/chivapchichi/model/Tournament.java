@@ -37,10 +37,16 @@ public class Tournament {
     @Column(nullable = false)
     private int max;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String division;
+
     public Tournament() {
     }
 
-    public Tournament(Calendar date, int ratingRange, String address, String phone, String organizerName, double cost, int max) {
+    public Tournament(Calendar date, int ratingRange, String address, String phone, String organizerName, double cost, int max, String name, String division) {
         this.date = date;
         this.ratingRange = ratingRange;
         this.address = address;
@@ -48,5 +54,7 @@ public class Tournament {
         this.organizerName = organizerName;
         this.cost = cost;
         this.max = max;
+        this.name = name;
+        this.division = division;
     }
 }

@@ -18,6 +18,7 @@
 		<div>
 			<label class="black-text">Password: <input type="password" name="password"></label>
 		</div>
+		<div th:if="${loginError != null}" th:text="${loginError}"></div>
 		<div>
 			<button class="btn teal darken-3 waves-effect waves-light white-text" type="submit">
 				Submit

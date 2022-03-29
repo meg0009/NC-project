@@ -2,12 +2,13 @@ package com.chivapchichi.controller.admin;
 
 import com.chivapchichi.model.Tournament;
 import com.chivapchichi.service.TournamentService;
+import com.chivapchichi.service.api.admin.TournamentAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("admin-panel")
@@ -15,9 +16,12 @@ public class TournamentController {
 
     private final TournamentService tournamentService;
 
+    private final TournamentAdminService tournamentAdminService;
+
     @Autowired
-    public TournamentController(TournamentService tournamentService) {
+    public TournamentController(TournamentService tournamentService, TournamentAdminService tournamentAdminService) {
         this.tournamentService = tournamentService;
+        this.tournamentAdminService = tournamentAdminService;
     }
 
     @GetMapping("/add-tournament")
@@ -27,42 +31,43 @@ public class TournamentController {
     }
 
     @PostMapping("/add-tournament")
-    public String postAddTournament(@ModelAttribute Tournament tournament) {
-        tournamentService.saveTournament(tournament);
+    public String postAddTournament(@ModelAttribute Tournament tournament, HttpServletRequest request) {
+        tournamentAdminService.saveTournament(tournament, request);
         return "success-registration";
     }
 
     @GetMapping("/delete-tournament")
     public String deleteTournament(Model model) {
-        model.addAttribute("tournaments", tournamentService.getAllTournaments());
+        model.addAttribute("tournaments", tournamentAdminService.getAllTournaments());
         return "admin-panel/delete-tournament";
     }
 
     @PostMapping("/delete-tournament")
-    public String postDeleteTournament(@RequestParam(value = "id") Integer id) {
-        tournamentService.deleteTournament(id);
-        return "success-registration";
+    public String postDeleteTournament(@RequestParam(value = "id") Integer id, HttpServletRequest request) {
+        tournamentAdminService.deleteTournament(id, request);
+        return "redirect:/admin-panel/delete-tournament/";
     }
 
     @GetMapping("/change-tournament")
     public String changeTournament(Model model) {
-        model.addAttribute("tournaments", tournamentService.getAllTournaments());
+        model.addAttribute("tournaments", tournamentAdminService.getAllTournaments());
         return "admin-panel/change-tournament";
     }
 
     @GetMapping("/change-tournament/{id}")
     public String changeTournamentId(@PathVariable(value = "id") Integer id, Model model) {
-        Optional<Tournament> tournament = tournamentService.getTournamentById(id);
-        if (tournament.isPresent()) {
-            model.addAttribute("tournament", tournament.get());
+        Tournament tournament = tournamentAdminService.getTournamentById(id);
+        if (tournament != null) {
+            model.addAttribute("tournament", tournament);
             return "admin-panel/change-tournament-id";
         }
         return "admin-panel/tournament-error";
     }
 
-    @PostMapping("/change-tournament")
-    public String postChangeTournament(@ModelAttribute Tournament tournament) {
-        tournamentService.saveTournament(tournament);
-        return "success-registration";
+    @PostMapping("/change-tournament/{id}")
+    public String postChangeTournament(@PathVariable(value = "id") Integer id, @ModelAttribute Tournament tournament, HttpServletRequest request) {
+        tournament.setId(id);
+        tournamentAdminService.saveTournament(tournament, request);
+        return "redirect:/admin-panel/change-tournament/" + id;
     }
 }

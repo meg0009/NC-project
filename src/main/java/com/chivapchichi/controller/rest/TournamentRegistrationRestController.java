@@ -25,6 +25,11 @@ public class TournamentRegistrationRestController {
         this.tournamentService = tournamentService;
     }
 
+    @GetMapping("/get-divisions")
+    public List<String> getDivisions() {
+        return tournamentService.getDivisions();
+    }
+
     @GetMapping("/get-all-tournaments")
     public List<Tournament> getAllTournaments() {
         return tournamentService.getAllTournaments();
@@ -33,6 +38,11 @@ public class TournamentRegistrationRestController {
     @GetMapping("/get-tournament/{id}")
     public Optional<Tournament> getTournamentById(@PathVariable("id") Integer id) {
         return tournamentService.getTournamentById(id);
+    }
+
+    @GetMapping("/get-by-username/{username}")
+    public List<Tournament> getTournamentByUserName(@PathVariable("username") String username) {
+        return tournamentService.getByUserName(username);
     }
 
     @PostMapping("/register/{id}")

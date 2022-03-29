@@ -8,19 +8,20 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" th:href="@{/style.css}">
 </head>
 <body class="teal lighten-2">
 <!--<div>
 	Список пользователей
 </div>-->
+<div th:replace="admin-panel/admintemplate :: navbar"></div>
 <div class="row">
-	<div th:replace="admin-panel/admintemplate :: navbar"></div>
 	<div class="col s8 teal lighten-3">
-		<ul>
-			<li th:each="user: *{users}">
-				<a class="btn teal darken-3 waves-effect waves-light white-text" th:href="@{/admin-panel/change-user/{username}(username = ${user.getUserName()})}" th:text="${user.getUserName()}"></a>
-			</li>
-		</ul>
+		<div class="collection">
+			<div th:each="user: *{users}">
+				<a class="collection-item teal lighten-3 black-text " th:href="@{/admin-panel/change-user/{username}(username = ${user.getUserName()})}" th:text="${user.getUserName()}"></a>
+			</div>
+		</div>
 	</div>
 </div>
 

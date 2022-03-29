@@ -8,6 +8,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- Compiled and minified CSS -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link rel="stylesheet" th:href="@{/style.css}">
 
 	<style>
 		[type="radio"].darkgreen:checked + span:after,
@@ -25,15 +26,15 @@
 <!--<div>
 	Удалить турнир
 </div>-->
+<div th:replace="admin-panel/admintemplate :: navbar"></div>
 <div class="row">
-	<div th:replace="admin-panel/admintemplate :: navbar"></div>
 	<form class="col s8 teal lighten-3" th:action="@{/admin-panel/delete-tournament}" method="post">
 		<div>
 			<ul>
 				<li th:each="tournament : *{tournaments}">
 					<label class="black-text">
 						<input class="darkgreen" type="radio" name="id" th:value="${tournament.getId()}">
-						<span th:text="${tournament.getDate().getTime().toString()}"></span>
+						<span th:text="${tournament.getName()}"></span>
 					</label>
 				</li>
 			</ul>

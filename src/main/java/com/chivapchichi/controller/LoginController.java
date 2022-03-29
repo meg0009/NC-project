@@ -1,34 +1,26 @@
 package com.chivapchichi.controller;
 
 import com.chivapchichi.model.AuthenticationRequestDTO;
+import com.chivapchichi.service.api.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Controller
 public class LoginController {
 
-    @Value("${jwt.header}")
-    private String authorizationCookie;
-
-    private final RestTemplate restTemplate;
+    private final LoginService loginService;
 
     @Autowired
-    public LoginController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
     }
 
     @GetMapping("/login")
@@ -37,42 +29,19 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String makeLogin(@ModelAttribute AuthenticationRequestDTO request, HttpServletResponse response) {
-        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath();
-        builder.path("/login-api/auth/login");
-
-        //ResponseEntity<Map> post = restTemplate.postForEntity(builder.toUriString(), request, Map.class);
-
-        //HttpHeaders headers = new HttpHeaders();
-        String uri = builder.toUriString();
-        ResponseEntity<Map> post = restTemplate.exchange(
-                /*builder.toUriString()*/ uri,
-                HttpMethod.POST,
-                new HttpEntity<>(request),
-                Map.class
-        );
-
-        Cookie jwtCookie = new Cookie(authorizationCookie, (String) post.getBody().get("token"));
-        response.addCookie(jwtCookie);
+    public String makeLogin(Model model, @ModelAttribute AuthenticationRequestDTO request, HttpServletResponse response) {
+        try {
+            loginService.login(request, response);
+        } catch (HttpClientErrorException.Forbidden e) {
+            model.addAttribute("loginError", e.getResponseBodyAsString());
+            return "login";
+        }
         return "redirect:/tournament/registration/";
     }
 
-    @PostMapping("/logout")
-    public String logout(HttpServletResponse response) {
-        Cookie delete = new Cookie(authorizationCookie, null);
-        delete.setMaxAge(0);
-
-        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath();
-        builder.path("/login-api/auth/logout");
-
-        restTemplate.postForObject(builder.toUriString(), null, Void.class);
-
-        response.addCookie(delete);
+    @PostMapping("/makelogout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        loginService.logout(request, response);
         return "redirect:/tournament/registration/";
-    }
-
-    @Bean
-    public static RestTemplate getRestTemplate() {
-        return new RestTemplate();
     }
 }

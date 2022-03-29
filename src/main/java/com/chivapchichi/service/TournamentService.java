@@ -54,8 +54,12 @@ public class TournamentService {
         }
     }
 
-    public Tournament saveTournament(Calendar date, int rating, String address, String phone, String organizerName, double cost, int max) {
-        return saveTournament(new Tournament(date, rating, address, phone, organizerName, cost, max));
+    public Tournament saveTournament(Calendar date, int rating, String address, String phone, String organizerName, double cost, int max, String name, String division) {
+        return saveTournament(new Tournament(date, rating, address, phone, organizerName, cost, max, name, division));
+    }
+
+    public List<String> getDivisions() {
+        return tournamentRepository.getDivisions();
     }
 
     public Tournament saveTournament(Tournament tournament) {
