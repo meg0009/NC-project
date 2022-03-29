@@ -11,7 +11,7 @@
 </head>
 <body class="teal lighten-2">
 <div class="row">
-	<form class="col s4 teal lighten-3" th:action="@{/registration}" th:object="${users}" method="post">
+	<form class="col s4 offset-s4 teal lighten-3" th:action="@{/registration}" th:object="${users}" method="post">
 		<div>
 			<label class="black-text" for="fio">ФИО: </label>
 			<input type="text" id="fio" th:field="${members.fio}">

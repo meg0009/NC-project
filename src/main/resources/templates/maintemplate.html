@@ -51,7 +51,7 @@
 	<div th:fragment="user-info(tournamentsRecords)">
 		<div th:if="${tournamentsRecords != null && tournamentsRecords.length != 0}" class="collection">
 			<div th:each="t: *{tournamentsRecords}">
-				<a th:class="'collection-item waves-effect waves-light btn red lighten-2 z-depth-0 white-text' + ${t==selectedTournament?' lighten-1':''}" th:href="@{/tournament/registration/{id}(id=${t.id})}">
+				<a th:class="'collection-item waves-effect waves-light btn z-depth-0 white-text myhover' + ${t==selectedTournament?' myactive':' red lighten-2'}" th:href="@{/tournament/registration/{id}(id=${t.id})}">
 					<div th:text="${t.getName()}"></div>
 				</a>
 			</div>

@@ -13,3 +13,15 @@ a.collection-item:hover {
 .collection {
     border: 0;
 }
+
+a.myhover:hover {
+    background-color: #d66367 !important;
+}
+
+a.myactive {
+    background-color: #d66367 !important;
+}
+
+a.myactive:hover {
+    background-color: #c0595c !important;
+ }
