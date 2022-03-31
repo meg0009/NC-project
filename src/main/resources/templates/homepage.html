@@ -11,7 +11,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body class="teal lighten-2">
-<div th:replace="maintemplate :: tournaments-with-principal(${principal}, ${tournament}, null, ${division}, ${registered}, ${admin})"></div>
+<div th:replace="maintemplate :: tournaments-with-principal(${principal}, ${tournament}, null, ${division}, ${registered}, ${admin}, null)"></div>
 <div class="row">
 	<div class="col s3 offset-s9" th:insert="maintemplate :: user-info(${tournamentsRecords})"></div>
 </div>

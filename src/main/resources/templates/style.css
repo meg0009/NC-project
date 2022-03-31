@@ -25,3 +25,11 @@ a.myactive {
 a.myactive:hover {
     background-color: #c0595c !important;
  }
+
+.spacing-bottom {
+    margin-bottom: 10px;
+}
+
+.no-spacing-bottom {
+    margin-bottom: 0;
+}

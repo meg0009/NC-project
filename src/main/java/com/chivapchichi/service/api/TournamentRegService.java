@@ -21,10 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TournamentRegService {
@@ -57,6 +54,28 @@ public class TournamentRegService {
         Tournament[] tournaments = restTemplate.getForObject(getUri("/api/tournament/get-all-tournaments"), Tournament[].class);
         model.addAttribute("tournament", tournaments);
         model.addAttribute("division", getDivisions());
+    }
+
+    public void tournaments(Model model) {
+        homepage(model);
+        String tournamentsUri = getUri("/api/tournament/get-dates");
+        Calendar[] tournaments = restTemplate.getForObject(tournamentsUri, Calendar[].class);
+        List<Calendar[]> dates = new ArrayList<>(tournaments.length / 3 + 1);
+        for (int i = 0; i * 3 < tournaments.length; i++) {
+            dates.add(getSlice(tournaments, i * 3, i * 3 + (tournaments.length / 3 > i ? 3 : tournaments.length % 3)));
+        }
+        model.addAttribute("dates", dates);
+    }
+
+    private Calendar[] getSlice(Calendar[] date, int start, int end) {
+        Calendar[] slice = new Calendar[end - start];
+        System.arraycopy(date, start, slice, 0, slice.length);
+        return slice;
+    }
+
+    public void tournamentsWithDivision(Model model, String division) {
+        tournaments(model);
+        model.addAttribute("selectedDivision", division);
     }
 
     public void formRegistration(Integer id, Model model, HttpServletRequest request) {

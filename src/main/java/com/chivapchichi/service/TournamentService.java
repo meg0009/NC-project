@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TournamentService {
@@ -60,6 +61,15 @@ public class TournamentService {
 
     public List<String> getDivisions() {
         return tournamentRepository.getDivisions();
+    }
+
+    public List<Calendar> getDates() {
+        //return tournamentRepository.findAll().stream().map(Tournament::getDate).sorted().collect(Collectors.toList());
+        return tournamentRepository.getDates().stream().map(d -> {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            return cal;
+        }).collect(Collectors.toList());
     }
 
     public Tournament saveTournament(Tournament tournament) {

@@ -25,7 +25,19 @@ public class TournamentRegistrationController {
     @GetMapping("/registration")
     public String homepage(Model model) {
         tournamentRegService.homepage(model);
-        return "homepage";
+        return "redirect:/tournament/registration/tournaments";
+    }
+
+    @GetMapping("/registration/tournaments")
+    public String getDates(Model model, HttpServletRequest request) {
+        tournamentRegService.tournaments(model);
+        return "tournaments";
+    }
+
+    @GetMapping("/registration/tournaments/{division}")
+    public String getDates(@PathVariable(value = "division") String division, Model model, HttpServletRequest request) {
+        tournamentRegService.tournamentsWithDivision(model, division);
+        return "tournaments";
     }
 
     @GetMapping("/registration/{idTournament}")

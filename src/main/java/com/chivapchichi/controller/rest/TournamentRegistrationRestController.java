@@ -9,10 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/tournament")
@@ -23,6 +20,11 @@ public class TournamentRegistrationRestController {
     @Autowired
     public TournamentRegistrationRestController(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
+    }
+
+    @GetMapping("/get-dates")
+    public List<Calendar> getDates() {
+        return tournamentService.getDates();
     }
 
     @GetMapping("/get-divisions")

@@ -11,16 +11,6 @@
 </head>
 <body class="teal lighten-2">
 <div th:fragment="tournaments-with-principal(principal, tournament, selectedTournament, division, registered, admin)">
-	<div th:each="d: *{division}">
-		<ul th:id="'dropdown' + ${d}" class="dropdown-content">
-			<li th:each="t: *{tournament}" th:if="${d.equals(t.getDivision())}" th:class="${t==selectedTournament?'active':''}">
-				<a th:href="@{/tournament/registration/{id}(id=${t.id})}">
-					<div th:text="${t.getName()}"></div>
-				</a>
-			</li>
-		</ul>
-	</div>
-
 	<nav>
 		<div class="nav-wrapper">
 			<div class="right" th:if="${!registered}">
@@ -37,8 +27,13 @@
 			</div>
 			<div class="right spacing-right" th:text="${principal}"></div>
 			<ul id="nav-mobile" class="left">
+				<li>
+					<a th:href="@{/tournament/registration/tournaments}">
+						Все дивизионы
+					</a>
+				</li>
 				<li th:each="d: *{division}" th:class="${selectedTournament!=null?(d.equals(selectedTournament.getDivision())?'active':''):''}">
-					<a class="dropdown-trigger" th:attr="data-target='dropdown' + ${d}">
+					<a th:href="@{/tournament/registration/tournaments/{id}(id=${d})}">
 						<div th:text="${d}"></div>
 					</a>
 				</li>

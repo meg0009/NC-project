@@ -4,6 +4,8 @@ import com.chivapchichi.model.Tournament;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public interface TournamentRepository extends JpaRepository<Tournament, Integer> {
@@ -13,4 +15,7 @@ public interface TournamentRepository extends JpaRepository<Tournament, Integer>
 
     @Query(value = "select distinct division from tournament order by division", nativeQuery = true)
     List<String> getDivisions();
+
+    @Query(value = "select distinct cast(date as date) from tournament order by date", nativeQuery = true)
+    List<Date> getDates();
 }
