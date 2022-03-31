@@ -52,14 +52,11 @@ public class RegistrationController {
             return "registration";
         }
 
-        ServletUriComponentsBuilder builder = ServletUriComponentsBuilder.fromCurrentContextPath();
-        builder.path("/registration/api");
-
         UserAndMember u = new UserAndMember();
         u.setUsers(users);
         u.setMembers(members);
 
-        Map<String, String> post = restTemplate.postForObject(builder.toUriString(), u, Map.class);
+        Map<String, String> post = restTemplate.postForObject("http://localhost:8080/registration/api", u, Map.class);
 
         if (post != null) {
             String r = post.get("result");
@@ -68,11 +65,6 @@ public class RegistrationController {
                 return "registration";
             }
         }
-
-        /*if (!usersService.addNewUserWithMember(users, members)) {
-            model.addAttribute("usernameError", "Пользователь с таким именем существует");
-            return "registration";
-        }*/
 
         return "redirect:/tournament/registration";
     }
