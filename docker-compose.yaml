@@ -1,0 +1,33 @@
+version: '3'
+services:
+  db:
+    container_name: dbprojectnc
+    image: "mydb"
+    build: db/
+    ports:
+      - 5432
+    networks:
+      - project-nc-net
+  server-api:
+    container_name: apihost
+    image: "server-api"
+    build: api/
+    ports:
+      - "8080:8080"
+    networks:
+      - project-nc-net
+    depends_on:
+      - db
+  server-ui:
+    container_name: uihost
+    image: "server-ui"
+    build: ui
+    ports:
+      - "9090:9090"
+    networks:
+      - project-nc-net
+    depends_on:
+      - server-api
+networks:
+  project-nc-net:
+    driver: bridge

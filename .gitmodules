@@ -1,0 +1,6 @@
+[submodule "api"]
+	path = api
+	url = https://github.com/meg0009/project-nc-api.git
+[submodule "ui"]
+	path = ui
+	url = https://github.com/meg0009/project-nc-ui.git
