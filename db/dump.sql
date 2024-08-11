@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 10.19 (Ubuntu 10.19-0ubuntu0.18.04.1)
--- Dumped by pg_dump version 10.19 (Ubuntu 10.19-0ubuntu0.18.04.1)
+-- Dumped from database version 14.2 (Debian 14.2-1.pgdg110+1)
+-- Dumped by pg_dump version 14.2 (Debian 14.2-1.pgdg110+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -16,23 +16,9 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
 SET default_tablespace = '';
 
-SET default_with_oids = false;
+SET default_table_access_method = heap;
 
 --
 -- Name: members; Type: TABLE; Schema: public; Owner: postgres
@@ -168,26 +154,32 @@ ALTER TABLE public.users OWNER TO postgres;
 --
 
 COPY public.members (id, user_name, fio) FROM stdin;
-1	user	Первый пользователь
-3	bbb@bb.ru	Tarasov Vasilii Dmotrievich
-4	vvv@vvv.ua	nnn cccc vvvv
-5	ffff@ffff.ff	fff fff fff
-6	zzzzz@zzz.zz	zzz zzz zzz
-7	yyy@yyy.yy	yyy yyy yyy
-8	mmm@mmm.mm	mmm mmm mmm
-9	sss@ss.ss	bbb kkk oo
-10	ooo@oo.oo	fff ffff fff
-11	uuu@uu.uu	uuu uuu uuu
-13	qq@qq.qq	qqq qqq qqq
-14	vasilii@vasilii.com	vasilii vasilii vasilii
-15	qwerty@q.q	gfjdgfn gmm
-16	admin@admin.admin	admin
-17	pp@pp.pp	ppp ppp ppp
-2	aaaa@aaa.com	Тарасов Василий Дмитриевич
-18	some@some.some	some some man
-19	new@new.new	new new new
-20	old@old.old	old old old
-24	meg0009@mail.ru	Тарасов Василий Дмитриевич
+1	admin@admin.admin	admin
+2	alex@alex.ru	Алексович Александр Александрович
+3	alexey@alexey.com	Тарасов Алексей Дмитриевич
+4	vasilii@vasilii.com	Тарасов Василий Дмитриевич
+5	dmitry@dmitry.com	Захаров Дмитрий Сергеевич
+6	anna@mail.ru	Харитонова Анна Сергеевна
+7	fedora@gmail.com	Тарасов Федор Сергеевич
+8	kate@mail.ru	Бахарева Екатерина Сергеевна
+9	min_kate@mail.ru	Минеева Екатерина Александровна
+10	bykov_dima@gmail.com	Быков Дмитрий Сергеевич
+11	nastya@ya.ru	Смирнова Анастасия Степановна
+12	ksu@yandex.ru	Костюнина Ксения Владимировна
+13	tanya@mail.ru	Учуватова Татьяна Васильевна
+14	newton@gmail.com	Ньютон Исаак
+15	turing@ya.ru	Тьюринг Алан
+16	cauchy@gmail.com	Коши Огюстен Луи
+17	taylor@yahoo.com	Тейлор Брук
+18	fourier@yahoo.com	Фурье Жан-Батист Жозеф
+19	fermat@gmail.com	Ферма Пьер
+20	tesla@yahoo.com	Тесла Никола
+21	pascal@ya.ru	Паскаль Блез
+22	heine@gmail.com	Гейне Эдуард
+23	riemann@yahoo.com	Риман Бернхард
+24	lobachevsky@yandex.ru	Лобачевский Николай Иванович
+25	demidovich@mail.ru	Демидович Борис Павлович
+26	egor@mail.ru	Кузьмичев Егор Алексеевич
 \.
 
 
@@ -230,15 +222,62 @@ COPY public.person (id, first_name, last_name, patronymic) FROM stdin;
 --
 
 COPY public.record (id, member, tournament) FROM stdin;
-11	24	1
-12	3	1
-18	9	1
-19	10	1
-22	4	1
-23	5	1
-24	8	1
-25	13	1
-27	14	2
+1	2	2
+2	3	2
+3	4	2
+4	5	2
+5	6	2
+6	7	2
+7	8	2
+8	9	2
+9	10	2
+10	11	2
+11	12	2
+12	13	2
+13	14	2
+14	15	2
+15	16	2
+16	17	2
+17	18	2
+18	19	2
+19	20	2
+20	21	2
+21	22	2
+22	23	2
+23	4	3
+24	5	3
+25	6	3
+26	7	3
+27	8	3
+28	9	3
+29	10	3
+30	17	3
+31	18	3
+32	19	3
+33	20	3
+34	21	3
+35	22	3
+36	23	3
+38	5	1
+39	6	1
+40	7	1
+41	10	1
+42	11	1
+43	12	1
+44	13	1
+45	14	1
+46	15	1
+47	16	1
+48	17	1
+49	18	1
+50	25	1
+52	12	4
+53	13	4
+54	14	4
+55	15	4
+56	16	4
+57	17	4
+63	4	7
 \.
 
 
@@ -247,10 +286,15 @@ COPY public.record (id, member, tournament) FROM stdin;
 --
 
 COPY public.tournament (id, date, rating_range, address, phone, organizer_name, cost, max, name, division) FROM stdin;
-1	2022-07-13 15:00:00+03	5	Нижний Новгород	+79999999999	Василий	150	5	Номер1	Дивизион1
-2	2023-03-01 09:00:00+03	3	Нижний	+79101351111	Ольга	200	10	Номер2	Дивизион1
-5	2022-03-30 12:12:00+03	5	Нижний Новгород	+79999999999	Ольга	20	3	номер5	Дивизион2
-3	2022-04-07 16:16:00+03	9	Нижний Н	+79101351111	Максим	15	7	Номер3	Дивизион3
+1	2022-04-05 18:30:00+00	0	Григорьевский съезд, 5 (TTCLUB)	+79999999999	Александр	250	20	TTCLUB Свободный	Свободный
+2	2022-04-02 10:00:00+00	220	Григорьевский съезд, 5 (TTCLUB)	+79999999999	Антон	250	20	TTCLUB 3Д	Третий
+3	2022-04-03 14:00:00+00	430	Григорьевский съезд, 5 (TTCLUB)	+79999999999	Ольга	250	20	TTCLUB Высший	Высший
+4	2022-04-03 15:00:00+00	400	ул. Родионова, 28 (СДЮШОР №13)	+79999999999	Александр	150	50	СДЮШОР №13 Первый	Первый
+6	2022-04-09 10:00:00+00	220	Григорьевский съезд, 5 (TTCLUB)	+79999999999	Антон	250	20	TTCLUB 3Д	Третий
+7	2022-04-10 14:00:00+00	250	Григорьевский съезд, 5 (TTCLUB)	+79101351111	Анастасия	250	20	TTCLUB Высший	Высший
+10	2022-04-10 18:00:00+00	400	ул. Родионова, 28 (СДЮШОР №13)	+79101351111	Мария	150	50	СДЮШОР №13 Первый	Первый
+11	2022-04-09 14:00:00+00	0	Григорьевский съезд, 5 (TTCLUB)	+79999999999	Мария	250	20	TTCLUB Свободный	Свободный
+12	2022-09-14 13:00:00+00	150	Григорьевский съезд, 5 (TTCLUB)	+79999999999	Василий	250	20	TTCLUB Высший	Высший
 \.
 
 
@@ -259,30 +303,32 @@ COPY public.tournament (id, date, rating_range, address, phone, organizer_name, 
 --
 
 COPY public.users (user_name, password, role) FROM stdin;
-admin	$2a$12$1V4SumHMJ./O9nLi24XC6O9bWT8.5BdO.HqDE6y5RYB7gu07JCZwS	ROLE_ADMIN
-user	$2a$10$3JjivZvwWHKEVqACd5BZT.D.F3VwA.YHqtlJX4Oe8gv7m7qqGZSDO	ROLE_USER
-user2	$2a$10$8HZjXlR6S4hYDdWD9Jijp.TWXg7Xs.8XGG/Ae18XfYiKLOJeCnOh2	ROLE_USER
-bbb@bb.ru	$2a$10$QN7ZWVWgD0TYOKcVzm/IreLXQUfds7tErWeDrfMNcQ5ED32juR7z2	ROLE_USER
-vvv@vvv.ua	$2a$10$L7opOpZ9p5SorkiihMpaF.wpVL/AeaZr8Ij8TFkQCm1793cMSC2bW	ROLE_USER
-ffff@ffff.ff	$2a$10$3b2joCK7UZ0Lzty7W0lQvept7g/nsJufpzAPzJVytE3Gdmuh6nmxW	ROLE_USER
-zzzzz@zzz.zz	$2a$10$ZlV/Y5sOPkDYclw19SE3MeaLEoyAktzvac6kyfYMTwbEEdKst2Ohq	ROLE_USER
-yyy@yyy.yy	$2a$10$zuTlfMCzcTj4IKhuPFqjyuMXg6fRPkuNmPm/.NPBwiXNUbI319WtC	ROLE_USER
-mmm@mmm.mm	$2a$10$AMW2qorB6FnHuMO9pcnB0ulmZVyql.Qmx/Vx9wHi3ZYbu1C.pdGn6	ROLE_USER
-sss@ss.ss	$2a$10$LCUUJKQCbSJmoLzCn2zGn.vCNnseT4j5ThwmkwpQs1mAMVbFtb7e6	ROLE_USER
-ooo@oo.oo	$2a$10$ISlcstj201sbM7S49RqsC.JdTzssGslyBgFz/22i2cup5MHC7Fcfu	ROLE_USER
-uuu@uu.uu	$2a$10$BLWy13.be1ql6OEL72VRweJ51e98LOuNrzOR0K8vpykjM6g/HuzqG	ROLE_USER
-test@test.test	$2a$10$UdSaQnYid86VQslNsd3mouuBCCOwTF4f0lzv397VhqDIKQaZX0JyC	ROLE_USER
-test2@test.test	$2a$10$CTiZ2XNXk5Pzw6bo442qv.rFcGjPKO68RTvchNswK9FdRc562Bnqi	ROLE_USER
-qq@qq.qq	$2a$10$g7cjZdKKA7iLDZxBJHQD2OM.xXwZwVoZBwWBd8Fx.gy6eKd32WkJm	ROLE_USER
-vasilii@vasilii.com	$2a$10$fjL6.Sl6eO3LLprj72.CXuvZPjw2/NdGRxtgooe9N7c2SaC7/QCt2	ROLE_USER
-qwerty@q.q	$2a$10$KKUZhI1Bmhsy6P5lyGsS5ubEFRGVGgyY/SwVyw0LDIbvzX.uQQ8l2	ROLE_USER
 admin@admin.admin	$2y$10$Gc3PmqWnjBM.DEUGPQD7Qul5cZDILI7aMa6azsf6TZ23HtaYtH3n6	ROLE_ADMIN
-pp@pp.pp	$2a$10$p5xheRbf3kkorSvm.0Ba2uhl4URfZDjqByS2kTgac4KdNS9r6hC0e	ROLE_USER
-aaaa@aaa.com	$2a$10$x3/AEKqtCA65OeWaBcIW5ukCB/STN91uU8N3UgZmju35YzvNEEVUK	ROLE_USER
-some@some.some	$2a$10$YUyDEPcNLOFbJtDdzN7tvegzNoPGBI3VEhGAySSvh3/o.6bRdZelO	ROLE_USER
-new@new.new	$2a$10$/TiKM1dfkxDbHg/Kgcb1g.0cwnfxHfjfmH6o7qq7TP/.mC3M0diE.	ROLE_USER
-old@old.old	$2a$10$te5mL/7vkSf4zaTXxMehpuiVmbwki15QfTAyam4D7Ip1Bh82IxvCe	ROLE_USER
-meg0009@mail.ru	$2a$10$BJxwJKTn9r3i430lpIz7Z.06IL3wIia.weMc6sD8O8DY21YUJI/Sy	ROLE_USER
+alex@alex.ru	$2a$10$N3VznB32wd8xlSaUuFgH2eXuFr/DW3m5ZkKBNtCfgojkYmB/npXiC	ROLE_USER
+alexey@alexey.com	$2a$10$MgAINZdEbKrHVVEbcvj6keL59dDyZPS4kMZIcltvbfsDsSCfNOhWi	ROLE_USER
+vasilii@vasilii.com	$2a$10$TZWN5giRE3XgBk1j94hHNOkdtg6GyUmXNo2N030zQHDpTUepX7jPa	ROLE_USER
+dmitry@dmitry.com	$2a$10$yIqmFNYWpd6l.03D668LC.ONMtk4iwMJqe0l3UuoDTvVfrtl/1fIK	ROLE_USER
+anna@mail.ru	$2a$10$U1rKK/Ctm91lb83ojv2tDeefE3cHyO2Bcf4EYfGb.FBi8pnLzYOhi	ROLE_USER
+fedora@gmail.com	$2a$10$7V0mfIV0zkf0URrJyrvp.ecNjdsZr.dbnytR3l8GsUitTX9vzDXAW	ROLE_USER
+kate@mail.ru	$2a$10$cQnvhbD6NQ4UfW1kRTetJuwR.qd8Gr0LR88HqE90kFoJQePefmaDW	ROLE_USER
+min_kate@mail.ru	$2a$10$ODia0/tLrqnwXWZhzifWO.Py.6dhu.JFr4l628JdN1aRe8wQ8h2Ji	ROLE_USER
+bykov_dima@gmail.com	$2a$10$5xPI8N86laVaCaUW4EgRlO/tyfzfYKo1SM23vc2FAWHRCdZJ4mvOW	ROLE_USER
+nastya@ya.ru	$2a$10$MF2zctCgHAT5teLybGi3uOzmkV8ROe/wY1IZ3VEW8V57QZDNuNCa6	ROLE_USER
+ksu@yandex.ru	$2a$10$ZcCjyYfHZs4GN5qfylr9xetKSOBAuFQONW1r8kV0fBGxy3tYLLu0a	ROLE_USER
+tanya@mail.ru	$2a$10$CNrd65HdX8dIagByMmjmveb.7eJypZHw8sO2BrVvJgbM8HkaAkAm2	ROLE_USER
+newton@gmail.com	$2a$10$j2enprQtdwIZJioBGAP12eOD2XDDTONypd8mWXQm8pRvnQfuG6U7e	ROLE_USER
+turing@ya.ru	$2a$10$LZ/zqnTT9qDpSGkxoRKrDu/z8wuMjVLN81HNvfIl57cJxFx8dt40C	ROLE_USER
+cauchy@gmail.com	$2a$10$qyhtKaru0azg5MaCI3n0ne7DjSPv5DkOXkKlGdWwl7uvzJOmm/gwu	ROLE_USER
+taylor@yahoo.com	$2a$10$3FTAuYLQWe897cOP1xeHhe8SVb1NXXEUcSuLMZxje3YfHF6Hj0Afa	ROLE_USER
+fourier@yahoo.com	$2a$10$x9k4HWhxbprdSE9DviookelTrXp6XDerXsCxYusuWJGz5RauPIaCu	ROLE_USER
+fermat@gmail.com	$2a$10$28cmoabf2W2BFkPSHJDucOtc2Xrta89fGB3.atvepOtFdfnf0PulW	ROLE_USER
+tesla@yahoo.com	$2a$10$L2jCKJGARqRdKVwX86oot..AAoOTEBwLf4OTPQIHja6ozPoLvSh9u	ROLE_USER
+pascal@ya.ru	$2a$10$NHSUaJ.z6W62IyI1hwlJuuQlRDJNkiPkd3HFxmjziu1L122MX4BG6	ROLE_USER
+heine@gmail.com	$2a$10$aFdYS0M1B9qSENPDVqUqT.f2qs4HmyU/RT2xtlc1eGuh4DfxjLLLm	ROLE_USER
+riemann@yahoo.com	$2a$10$Y0E/.Sa0SzO6oZO3wnUNrOuqAeiVdbdK0DM9pORgBE0feLw675kua	ROLE_USER
+lobachevsky@yandex.ru	$2a$10$dR5FXoFHEVscJ98Q3FYCDe5XnFq0iY.h5mXLSpnPLJAGkI.D5WsFi	ROLE_USER
+demidovich@mail.ru	$2a$10$ztOEVDR5teVFcXI156FwSePaWgmthVu5ADWlARJS6dVJpfJOCXnF6	ROLE_USER
+egor@mail.ru	$2a$10$6pOnCvcuDPPQfpjeE8yS6.PY1Mn3.RekPbchc1Gbg3EI3/UDFNzMy	ROLE_USER
 \.
 
 
@@ -290,7 +336,7 @@ meg0009@mail.ru	$2a$10$BJxwJKTn9r3i430lpIz7Z.06IL3wIia.weMc6sD8O8DY21YUJI/Sy	ROL
 -- Name: members_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.members_id_seq', 24, true);
+SELECT pg_catalog.setval('public.members_id_seq', 26, true);
 
 
 --
@@ -304,14 +350,14 @@ SELECT pg_catalog.setval('public.person_id_seq', 26, true);
 -- Name: record_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.record_id_seq', 31, true);
+SELECT pg_catalog.setval('public.record_id_seq', 63, true);
 
 
 --
 -- Name: tournament_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.tournament_id_seq', 5, true);
+SELECT pg_catalog.setval('public.tournament_id_seq', 12, true);
 
 
 --
